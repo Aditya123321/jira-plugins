@@ -1,0 +1,41 @@
+#* @vtlvariable name="action" type="com.atlassian.jira.plugins.importer.web.ImporterProcessSupport" *#
+#*
+#
+# Configuration:
+# auiparams.description - form description
+# auiparams.steps - all wizard steps
+# auiparams.activeStep - current step
+# auiparams.onsubmit
+*#
+
+#if ($action.formTitle)
+	## #set($totalSteps = $action.totalSteps + 1)
+    <header class="aui-page-header">
+        <div class="aui-page-header-inner">
+            <div class="aui-page-header-main">
+                <h1>$action.formTitle</h1>
+            </div>
+         
+        </div>
+    </header>
+#end
+<div class="aui-page-panel">
+    <div class="aui-page-panel-inner">
+        <section class="aui-page-panel-content">
+        
+            #if (!$auiparams.hideProgress || $auiparams.hideProgress == false)
+                #if ($action.stepsProgress.size() > 1)
+                    <h2 class="jim-step-name-heading">${action.currentStepName}</h2>
+                #end
+            #elseif ($action.getFromHeader())
+                <h2 class="jim-step-name-heading">${action.getFromHeader()}</h2>
+            #end
+            <form action="${action.actionName}.jspa?externalSystem=$esc.url($action.externalSystem)"
+                  method="post" name="jiraform" class="aui jim-form"  enctype="multipart/form-data" id="jimform"
+                >
+                <input type="hidden" name="atl_token" value="$atl_token" />
+
+            
+
+         
+           

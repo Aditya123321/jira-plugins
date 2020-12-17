@@ -1,0 +1,113 @@
+#disable_html_escaping()
+
+#set( $myNumber = 1 )
+<div>
+	#if(!$none)
+	    #if (!$issues.isEmpty())
+	        <table class="timeReport" id="timeReport" border="1" cellspacing="0">
+	            <thead>
+	                <tr>
+	                    <th style="background-color: #f0f0f0;"><span Title="JIRA Id">Story Id<span></th>
+	                    <th style="background-color: #f0f0f0;"><span Title="Title of the story">Title<span></th>
+	                    <th style="background-color: #f0f0f0;"><span Title="Status of the story">Status<span></th>
+	                    <th style="background-color: #fafafa;"><span Title="Architect Estimation">Architect <br/>Estimate&nbsp;<data value="hour">(h)</data><span></th>
+	                    <th style="background-color: #fafafa;"> <span Title="Developer Estimation">Original <br/>Estimate&nbsp;(Dev)&nbsp;<data value="hour">(h)<sup> *</sup></data><span></th>
+	                    <th style="background-color: #ffebe5;"><span Title="Actual hours Logged">Actual&nbsp;<data value="hour">(h)<sup> ^</sup></data><span></th>
+	                    <th style="background-color: #ffebe5;"> <span Title="Remaining hours">Remaining&nbsp;<data value="hour">(h)<sup> #</sup></data><span></th>
+	                    <th style="background-color: #fffae5;">Dev Estimate Deviation <sup> $</sup></th>
+	                    <th style="background-color: #fffae5;">Architect vs &nbsp;<br/>Dev Estimates <sup> †</sup></th>
+	                    <th style="background-color: #fffae5;">Architect vs &nbsp;<br/>Actual Estimates<sup> /</sup></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                #foreach ($issue in $issues)
+	                    #set($issueActualTime = $issueActualTimes.get($issue.getKey()))
+	                    #set($issueRemainingTime = $issueRemainingTimes.get($issue.getKey()))
+	                    #set($devEstimate = $devEstimates.get($issue.getKey()))
+	                    #set($architectEstimate = $architectEstimates.get($issue.getKey()))
+	                    #set($devDeviation = $summaryBean.getDevDeviation().get($issue.getKey()))
+	                    #set($architectOriginalDeviation = $summaryBean.getArchitectOriginalDeviation().get($issue.getKey()))
+	                    #set($architectActualDeviation = $summaryBean.getArchitectActualDeviation().get($issue.getKey()))
+	                    #set($totalEstimate = $totalTimeEstimate.get($issue.getKey()))
+	                    #parse("templates/reports/time-estimates-report/excel/time-tracking-issue.vm")
+	                    #foreach ($subtask in $issue.getSubTasks())
+	                        #set($subTaskActualTime = $subTaskActualTimes.get($subtask.getKey()))
+	                        
+	                        #set($subTaskRemainingTime = $subTaskRemainingEstimates.get($subtask.getKey()))
+	                        
+	                        ## Resetting variables to false. If not done, it keeps the previous value of variables if the RHS of assignment operation returns null.
+	                        ## Due to this previous sub-task data is displayed when current sub-task doesn't have data.
+	                        #set($subTaskArchitectEstimate = false)
+	                        #set($subTaskArchitectEstimate = $subTaskArchitectEstimates.get($subtask.getKey()))
+	                        
+	                        #set($subTaskDevEstimate = false)
+	                        #set($subTaskDevEstimate = $subTaskDevEstimates.get($subtask.getKey()))
+	                        
+	                        #set($totalSubTask = $totalSubTaskTime.get($subtask.getKey()))
+	                        #parse("templates/reports/time-estimates-report/excel/time-tracking-subtask.vm")
+	                    #end
+	                    #set($myNumber = $myNumber+1)
+	                #end
+	            </tbody>
+	            <tfoot>
+	                <tr style="background-color: #f0f0f0;">
+	                    <th class="small-head first">Total Stories: $issuesSize</th>
+	                    <th class="small-head"></th>
+	                    <th class="small-head first"></th>
+	                    <th class="small-head">&nbsp;$summaryBean.getAggregateArchitectEstimates()</th>
+	                    <th class="small-head">&nbsp;$summaryBean.getAggregateDevEstimates()</th>
+	                    <th class="small-head">&nbsp;$aggregateIssueEstimate</th>
+	                    <th class="small-head">&nbsp;$aggregateIssueRemainingTime</th>
+	                    #set($aggregateDevDeviation = $summaryBean.getAggregateDevDeviation())
+	                   	#if($summaryBean.getAggregateDevDeviation() <= 10)
+	                   		#if($summaryBean.getAggregateDevDeviation() < 0)
+	                   			#set($aggregateDevDeviation = -1 * $summaryBean.getAggregateDevDeviation())
+					        #end
+					        <th style="color:#32c42f;">$aggregateDevDeviation%</th>
+					    #else
+					    	<th style="color:red;">$summaryBean.getAggregateDevDeviation()%</th>
+					    #end
+						
+						#set($aggregateArchitectDeviation = $summaryBean.getAggregateArchitectDevDeviation())                    	
+	                    #if($summaryBean.getAggregateArchitectDevDeviation() <= 10)
+	                    	#if($summaryBean.getAggregateArchitectDevDeviation() < 0)
+	                    		#set($aggregateArchitectDeviation = -1 * $summaryBean.getAggregateArchitectDevDeviation())
+					        #end
+					        <th style="color:#32c42f;">$aggregateArchitectDeviation%</th>
+					    #else
+					        <th style="color:red;">$summaryBean.getAggregateArchitectDevDeviation()%</th>
+					    #end
+					    
+					    #set($aggregateArchitectActualDeviation = $summaryBean.getAggregateArchitectActualDeviation())
+					    #if($summaryBean.getAggregateArchitectActualDeviation() <= 10)
+					    	#if($summaryBean.getAggregateArchitectActualDeviation() < 0)
+					        	#set($aggregateArchitectActualDeviation = -1 * $summaryBean.getAggregateArchitectActualDeviation())
+					        #end
+					        <th style="color:#32c42f;">$aggregateArchitectActualDeviation%</th>
+					    #else
+					        <th style="color:red;">$summaryBean.getAggregateArchitectActualDeviation()%</th>
+					    #end
+	                </tr>
+	            </tfoot>
+	        </table>
+	        <div>
+				<small>†  Architect vs Dev Estimates = 100 * (Original Estimate (Dev) - Architect Estimate)/Architect Estimate</small>
+		        <br/>
+		        <small>*  Story Estimate = Σ (Sub-Story Estimate + Story Estimate)</small>
+		        <br/>
+		        <small>^  Story Actual = Σ (Sub-Story Actual + Story Actual)</small>
+		        <br/>
+		        <small>#  Story Remaining = Σ (Sub-Story Remaining + Story Remaining)</small>
+		        <br/>
+		        <small>$  Dev Estimate Deviation = 100 * (Actual + Remaining - Original Estimate (Dev))/Original Estimate (Dev)</small>
+		        <br/>
+		        <small>/  Architect vs Actual Estimates = 100 * (Actual + Remaining - Architect Estimate)/Architect Estimate</small>
+		        <br/>
+		        <small><b>Note :</b>
+		        	<br/> 1. If any of the estimate (Architect or Original Estimate (Dev)) is missing for a sub-story, that sub-story will not be rolled up to its parent story.
+		        	<br/> 2. Total is Summation of Parent Story data.
+		        </small>
+			</div>
+	    #end
+	#end
+</div>

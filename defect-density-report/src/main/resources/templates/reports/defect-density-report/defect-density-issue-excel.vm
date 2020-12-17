@@ -1,0 +1,8 @@
+
+<tr bgcolor="#ffffff">
+    <td class="figures">$stat.developerName</td>
+    <td class="figures">$stat.totalStories</td>
+    <td class="figures">$stat.originalEstimatesTotal</td>
+    <td class="figures">$stat.defects</td>
+    <td class="figures">$stat.defectDensity</td>
+</tr>

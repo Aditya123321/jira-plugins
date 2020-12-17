@@ -1,0 +1,541 @@
+table.timeReportHeader {
+    width: 100%;
+    border-width: 0;
+}
+
+table.timeReportHeader thead th {
+    background-color: #f0f0f0;
+}
+
+table.timeReportHeader h3,
+table.timeReportHeader h4 {
+    margin-top: 0;
+    margin-left: 6px;
+    padding: 5px;
+}
+
+table.timeReportHeader td {
+    padding: 0px;
+}
+
+table.timeReport {
+    padding: 0;
+    width: 100%;
+    border-width: 0;
+    margin: 0;
+}
+
+table.timeReport thead {
+    background-color: #f0f0f0;
+}
+
+table.timeReport tfoot {
+    background-color: #f0f0f0;
+    vertical-align: bottom;
+}
+
+table.timeReport th {
+    padding: 5px;
+}
+
+table.timeReport td {
+    padding: 5px;
+}
+
+table.timeReport tbody tr .figures {
+    white-space: nowrap;
+}
+
+table.timeReport tbody tr .issue-key {
+    white-space: nowrap;
+}
+
+table.timeReport thead tr th {
+    font-weight: bold;
+    border-bottom-color: #666;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+table.timeReport tfoot tr th {
+    font-weight: bold;
+    border-top-color: #666;
+    border-top-width: 1px;
+    border-top-style: solid;
+    white-space: nowrap;
+}
+
+table.timeReport .left-bordered {
+    border-left-color: #666;
+    border-left-width: 1px;
+    border-left-style: solid;
+}
+
+table.timeReport .small-head {
+    font-size: x-small;
+}
+
+table.timeReport .footer-header th.small-head {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+table.timeReport td {
+    border-left-color: lightgray;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-bottom-color: lightgray;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+table.subtask-summary td {
+    border: none;
+    padding: 0;
+}
+
+table.timeReport .greyed-out {
+    color: gray;
+}
+
+table.timeReport tbody .red-highlight {
+    font-weight: normal;
+}
+
+table.timeReport tbody .green-highlight {
+    font-weight: normal;
+}
+
+
+/* hide subtable by default */
+
+.aui-expander-subtask {
+    visibility: hidden;
+    position: absolute;
+    opacity: 0;
+}
+
+.aui-expander-subtask-visible {
+    transition: opacity 0.5s ease-in-out;
+    visibility: visible;
+    position: relative;
+    opacity: 1;
+    background-color: #eeeef8;
+}
+
+.aui-expander-subtask-visible .title span {
+    margin-left: 15px;
+}
+
+.figures {
+    text-align: center;
+}
+
+.small-head.first {
+    text-align: left;
+}
+
+table.timeReport tbody tr .figures {
+    text-align: center;
+    vertical-align: middle;
+    height: 25px;
+    line-height: 12px;
+}
+
+table.timeReport .small-head {
+    border: 1px solid #c4c2c2;
+}
+
+.timeReport th:first-child {
+    text-align: center;
+    padding-right: 10px;
+}
+
+.timeReport tr td:first-child {
+    text-align: left;
+    padding-left: 35px;
+    padding-right: 5px;
+}
+
+.timeReport tr td:last-child {
+    border-right: 1px solid #c4c2c2;
+}
+
+.aui-button-subtask {
+    margin-left: 10px;
+}
+
+
+/* Accordian icon */
+
+.aui-button-subtask {
+    margin-right: -12px;
+}
+
+.aui-subtask-icon-row {
+    position: relative;
+}
+
+.aui-subtask-icon:before {
+    content: "\002B";
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+    font-size: 22px;
+    top: -4px;
+    color: #909396;
+    z-index: 10;
+}
+
+.aui-subtask-icon-click:before {
+    content: "\2212";
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+    font-size: 22px;
+    top: -4px;
+    color: #909396;
+    z-index: 10;
+}
+
+
+/* excel button styles */
+
+.aui-page-panel-inner .aui-page-panel-content .aui-message.aui-message-info.info {
+    background: none;
+}
+
+.aui-message.aui-message-info.info .excel a img {
+    display: none;
+}
+
+.aui-message.aui-message-info.info p:nth-child(2) {
+    display: none;
+}
+
+.aui-message-info:after {
+    display: none;
+}
+
+.aui-page-panel-inner .aui-page-panel-content .aui-message {
+    padding: 0px;
+}
+
+.aui-message.aui-message-info.info .excel {
+    border: 1px solid;
+    padding: 5px;
+    border-color: #0052cc;
+    border-radius: 5px;
+    background: #0052cc;
+    margin-bottom: 5px;
+    float: right;
+    box-sizing: border-box;
+}
+
+.aui-message.aui-message-info.info .excel:hover {
+    transform: scale(1.1);
+}
+
+.aui-message.aui-message-info.info .excel a {
+    text-decoration: none;
+    color: white;
+}
+
+table.timeReport tbody tr .figures.title {
+    text-align: left;
+    padding-left: 10px;
+    white-space: nowrap;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.timeReport .aui-expander-subtask .issue-key-row a {
+    margin-left: 10px;
+}
+
+
+/* background color */
+
+.red {
+    color: red;
+}
+
+.deviation-success {
+    color: #32c42f;
+}
+
+.light-red {
+    background-color: #ffebe5;
+}
+
+.light-yellow {
+    background-color: #fffae5;
+}
+
+.light-gray {
+    background-color: #fafafa;
+}
+
+
+/* style table width */
+
+.aui-page-panel .aui-page-panel-inner .aui-page-panel-content {
+    width: 100%;
+}
+
+
+/* Remove background color from excel button */
+
+.aui-message-generic,
+.aui-message-hint,
+.aui-message-info {
+    background: none;
+}
+
+.aui-page-panel-inner .aui-page-panel-content .aui-message {
+    background: none;
+}
+
+/* Multiple Select filter */
+.status-filter {
+    display: -webkit-inline-box;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.form-content {
+    position: relative;
+    width: 100%;
+    display: flex;
+}
+
+.form-content select {
+    width: fit-content;
+    padding-right: 10px;
+    margin-right: 10px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px black solid;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-content select:focus {
+    outline: none;
+}
+
+.status-list {
+    display: none;
+    position: absolute;
+    width: max-content;
+    min-width: 148px;
+    border: 1px #b6b6b6 solid;
+    border-top: none;
+    background-color: #fff;
+    box-shadow: 0px 0px 8px #bcbcbc;
+    z-index: 100;
+    height: 300px;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+.status-list label {
+    display: block;
+    cursor: pointer;
+    padding: 5px 8px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+    color: #42526e;
+}
+
+.status-list label input:focus {
+    outline: none;
+}
+
+.select-all {
+    border-bottom: 1px solid #b4b3b3;
+}
+
+.status-list label span {
+    margin-left: 5px;
+    height: 14px;
+    background-color: #dfe1e5;
+    border-radius: 3px;
+}
+
+.status-list label:hover {
+    background-color: #ebecf0;
+}
+
+.submit-btn {
+    border: none;
+    height: 24px;
+    margin: 3px;
+    cursor: pointer;
+    background-color: #0052cc;
+    color: #fff;
+    border-radius: 3px;
+}
+.submit-btn:focus {
+    outline: none;
+}
+
+/* Project Category filter */
+.project-category-filter {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.form-content .select-project-category {
+    width: fit-content;
+    max-width: max-content;
+    padding-right: 10px;
+    margin-right: 15px;
+    height: 30px;
+    border: none;
+    border-bottom: none;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #ebecf0;
+    border-radius: 3px;
+}
+
+.form-content select option {
+    font-weight: 500;
+    color: #42526e;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+/* Alignment of the delivery-head-estimates-report */ 
+table.timeReport tbody tr {
+    max-height: 40px;
+}
+
+table.timeReport tbody tr .first-left {
+    text-align: left;
+    padding-left: 5px;
+    max-width: 135px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.timeReport tbody tr .third-left {
+    text-align: left;
+    padding-left: 5px;
+    max-width: 135px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.timeReport tbody tr .project-name {
+    text-align: left;
+    max-width: 148px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.timeReport tbody tr .project-lead {
+    text-align: left;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stories-considered {
+    max-width: 110px;
+}
+
+.stories-considered .sub-stories {
+    font-size: 9px;
+}
+
+/* Date Picker */
+.date-picker {
+    height: 30px;
+    margin-right: 10px;
+    border: none;
+    background: #ebecf0;
+    border-radius: 3px;
+    padding: 0 5px;
+}
+ 
+.date-picker:focus {
+    outline: none;
+}
+
+/* Sorting arrows */
+table.timeReport thead th.small-head {
+    cursor: pointer;
+    position: relative;
+    padding: 5px 10px;
+}
+
+.arrow {
+	position: absolute;
+	right: 2px;
+	top: 5px;
+	font-size: 16px;
+}
+
+.hidden {
+	display: none;
+}
+
+/* Columns width */
+.num-col {
+    width: 60px;
+}
+
+.emp-id {
+    width: 45px;
+}
+
+/* Tooltip */
+.header-tooltip {
+    width: 130px;
+    height: 30px;
+    position: absolute;
+	font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 5px;
+	top: -40px;
+    left: -25px;
+    box-shadow: 2px 2px 3px 2px #9c9c9c;
+    border-radius: 5px;
+    background-color: #f1f7ff;
+    z-index: 100;
+    
+}
+.header-tooltip-small {
+	width: 132px;
+    height: 15px;
+    top: -20px;
+    left: -27px;
+}
+.show {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.small-head:hover {
+    background-color: #e4e4e4;
+}
+
+.light-red:hover {
+    background-color: #ffd5c8;
+}
+
+.light-yellow:hover {
+    background-color: #fff0b6;
+}
+
+.light-gray:hover {
+    background-color: #eeeeee;
+}

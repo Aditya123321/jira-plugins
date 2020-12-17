@@ -1,0 +1,75 @@
+#disable_html_escaping()
+#macro (displayEstimate $estimate)
+	#if(! $estimate)
+		--
+	#else
+		$estimate
+	#end
+#end
+
+#macro (displayDeviation $deviation)
+	#if(! $deviation)
+		--
+	#else
+		$deviation%
+	#end
+#end
+
+#set ($doNotPrintAggregates = ($issue.isSubTask() && !$issue.isOrphan()))
+
+## Resetting variables to false. If not done, it keeps the previous value of variables if the RHS of assignment operation returns null. 
+## Due to this previous sub-task data is displayed when current sub-task doesn't have data.
+#set($subDevDeviation = false)
+#set($subDevDeviation = $subTaskDevDeviation.get($subtask.getKey()))
+
+#set($subArchitectDevDevition = false)
+#set($subArchitectDevDevition = $subTaskArchitectDevDeviation.get($subtask.getKey()))
+
+#set($subArchitectActualDevition = false)
+#set($subArchitectActualDevition = $subTaskArchitectActualDeviation.get($subtask.getKey()))
+
+#set($title= $subtask.getSummary())
+
+<tr style="background-color: #eeeef8;"  class="aui-expander-subtask aui-row-subtask-$myNumber">
+   <td style="text-align:center;"><a style="text-decoration: none;" href="$jiraBaseUrl/browse/${subtask.getKey()}">$subtask.getKey()</a>
+    </td>
+   	<td style="text-align:left;">
+        <span title="$issue.getSummary()">$title</span>
+    </td>
+    <td style="text-align:center;">
+        #set ($simpleStatus = $subtask.issue.statusObject.simpleStatus)
+        #set ($isIssueStatusSubtle = true)
+        #parse("/static/util/issue/status.vm")
+    </td>
+    <td style="text-align:center;">#displayEstimate($subTaskArchitectEstimate)</td>
+    <td style="text-align:center;">#displayEstimate($subTaskDevEstimate)</td>
+    <td style="text-align:center;">$subTaskActualTime</td>
+    <td style="text-align:center;">$subTaskRemainingTime</td>
+    
+    #if($subDevDeviation <= 10)
+    	#if($subDevDeviation < 0)
+        	#set($subDevDeviation = -1 * $subDevDeviation)
+        #end
+        <td style="text-align:center;color:#32c42f;">#displayDeviation($subDevDeviation)</td>
+    #else
+    	<td style="text-align:center;color:red">#displayDeviation($subDevDeviation)</td>
+    #end
+    
+    #if($subArchitectDevDevition <= 10)
+    	#if($subArchitectDevDevition < 0)
+    		#set($subArchitectDevDevition = -1 * $subArchitectDevDevition)
+    	#end
+        <td style="text-align:center;color:#32c42f;">#displayDeviation($subArchitectDevDevition)</td>
+    #else
+    	<td style="text-align:center;color:red">#displayDeviation($subArchitectDevDevition)</td>
+    #end
+    
+    #if($subArchitectActualDevition <= 10)
+    	#if($subArchitectActualDevition < 0)
+        	#set($subArchitectActualDevition = -1 * $subArchitectActualDevition)
+        #end
+        <td style="text-align:center;color:#32c42f;">#displayDeviation($subArchitectActualDevition)</td>
+    #else
+    	<td style="text-align:center;color:red">#displayDeviation($subArchitectActualDevition)</td>
+    #end
+</tr>

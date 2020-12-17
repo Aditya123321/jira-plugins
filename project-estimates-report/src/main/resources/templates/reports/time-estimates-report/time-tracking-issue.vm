@@ -1,0 +1,55 @@
+#disable_html_escaping()
+
+#set ($doNotPrintAggregates = ($issue.isSubTask() && !$issue.isOrphan()))
+#set($title= $issue.getSummary())
+
+<tr bgcolor="#ffffff">
+     <td class="issue-key issue-key-row aui-subtask-icon-row">
+         #if($hasSubTask.get($issue.getKey()))
+            <span Title="Subtask" class="aui-subtask-icon aui-button-subtask aui-button-subtask-$myNumber">
+            </span>
+         #end
+         <a href="$req.contextPath/browse/${issue.getKey()}">$issue.getKey()</a>
+     </td>
+    
+    <td class="figures title">
+        <span title="$title">$title</span>
+    </td>
+    <td class="figures">
+        #set ($simpleStatus = $issue.issue.statusObject.simpleStatus)
+        #set ($isIssueStatusSubtle = true)
+        #parse("/static/util/issue/status.vm")
+    </td>
+    <td class="figures">$architectEstimate</td>
+    <td class="figures">$devEstimate</td>
+    <td class="figures">$issueActualTime</td>
+    <td class="figures">$issueRemainingTime</td>
+   
+    #if($devDeviation <= 10)
+    	#if($devDeviation < 0)
+        	#set($devDeviation = -1 * $devDeviation)
+        #end
+        <td class="figures deviation-success">$devDeviation%</td>
+    #else
+    	<td class="figures red">$devDeviation%</td>
+    #end
+    
+    #if($architectOriginalDeviation <= 10)
+    	#if($architectOriginalDeviation < 0)
+    		#set($architectOriginalDeviation = -1 * $architectOriginalDeviation)
+    	#end
+        <td class="figures last deviation-success">$architectOriginalDeviation%</td>
+    #else
+    	<td class="figures last red">$architectOriginalDeviation%</td>
+    #end
+    
+    #if($architectActualDeviation <= 10)
+    	#if($architectActualDeviation < 0)
+        	#set($architectActualDeviation = -1 * $architectActualDeviation)
+        #end
+        <td class="figures last deviation-success">$architectActualDeviation%</td>
+    #else
+    	<td class="figures last red">$architectActualDeviation%</td>
+    #end
+   
+</tr>

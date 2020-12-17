@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/thumbnail.svg</param>  
+  <!--   <param name="plugin-logo">images/pluginLogo.png</param> -->
+     <param name="plugin-logo">images/thumbnail.svg</param> 
+  </plugin-info>  
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="defect-density-report"/>  
+  <!-- add our web resources -->  
+  <web-resource key="defect-density-report-resources" name="defect-density-report Web Resources"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>
+    <resource type="download" name="defect-density-report.css" location="/css/defect-density-report.css"/>
+    <resource type="download" name="filter.css" location="/css/filter.css"/>  
+    <resource type="download" name="defect-density-report.js" location="/js/defect-density-report.js"/>  
+    <resource type="download" name="images/" location="/images"/>  
+      <resource type="download" name="thumbnail.svg" location="/images/thumbnail.svg">
+    <param name="content-type" value="image/svg"/></resource>
+    <context>defect-density-report</context>  
+    <context>atl.general</context> 
+  </web-resource> <!-- &gt; --> 
+  <report name="Defect Density Report" i18n-name-key="defect-density-report.name" key="defect-density-report" class="com.tadigital.jira.reports.report.DefectDensityReport"> 
+    <description key="defect-density-report.description">The Defect Density Report is meant to track the development quality of the project</description>  
+    <resource name="defectDensityView" type="velocity" location="/templates/reports/defect-density-report/defectDensityReport.vm"/>  
+    <resource name="excel" type="velocity" location="/templates/reports/defect-density-report/excelView.vm"/>  
+    <resource name="i18n" type="i18n" location="DefectDensityReport"/>  
+  
+    <label key="defect-density-report.label"/>  
+    <properties> 
+      <property> 
+        <key>projectId</key>  
+        <name>Project Selection :</name>  
+        <description>defect-density-report.projectselection</description>  
+        <type>select</type>  
+        <i18n>false</i18n>  
+        <values class="com.tadigital.jira.valuegenerator.ProjectValuesGenerator"/> 
+      </property>  
+      <!--      <property>
+        <key>projectSearch</key>
+        <name>Project Search : </name>
+        <description>defect-density-report.projectsearch</description>
+        <type>string</type>
+        <values class="com.tadigital.jira.reports.report.ProjectSearch" />
+      </property> -->  
+      <!--    <property>
+        <key>developerId</key>
+        <name>Developer Name : </name>
+        <description>defect-density-report.developerselection</description>
+        <type>select</type>
+        <values class = "com.tadigital.jira.reports.report.DeveloperValuesGenerator" />
+        <enabled-condition class="com.tadigital.jira.reports.report.CheckProjectSelected" />
+      </property> --> 
+    </properties> 
+  </report>  
+  <report name="Defect Density Report Delivery Heads" i18n-name-key="defect-density-report-delivery-heads.name" key="defect-density-report-delivery-heads" class="com.tadigital.jira.plugin.report.jira.deliveryreports.DefectDensityReportDeliveryHeads"> 
+    <description key="defect-density-report-delivery-heads.description">The Defect Density Report Delivery Heads Plugin</description>  
+    <resource name="defectDensityDeliveryView" type="velocity" location="/templates/reports/defect-density-report-delivery-heads/DefectDensityDelivery.vm"/>  
+    <resource name="i18n" type="i18n" location="DefectDensityReportDeliveryHeads"/>  
+      <resource name="excel" type="velocity" location="/templates/reports/defect-density-report-delivery-heads/excelViewDelivery.vm"/>  
+    <label key="defect-density-report-delivery-heads.label"></label>  
+    <!-- the properties of this report which the user must select before running it -->  
+   
+    <properties>
+     <property> 
+        <key>categoryId</key>  
+        <name>Select Category :</name>  
+        <description>defect-density-report-delivery-heads.projectselection</description>  
+        <type>select</type>  
+        <i18n>false</i18n>  
+        <values class="com.tadigital.jira.plugin.report.jira.deliveryreports.ProjectDropdownValuesGenerator"/> 
+      </property>  
+    <!--     <property>
+            <key>versionId</key>
+            <name>common.concepts.version</name>
+            <description>report.timetracking.version.description</description>
+            <type>select</type>
+            <values class="com.atlassian.jira.portal.VersionOptionalValuesGenerator"/>
+        </property>
+        <property>
+            <key>sortingOrder</key>
+            <name>report.timetracking.sortingorder</name>
+            <description>report.timetracking.sortingorder.description</description>
+            <type>select</type>
+            <values class="com.atlassian.jira.portal.SortingValuesGenerator"/>
+        </property> -->
+    </properties>
+    
+  </report>
+	<report name="Defect Density Report Practice Manager"
+		i18n-name-key="defect-density-report-practice-manager.name"
+		key="defect-density-report-practice-manager"
+		class="com.tadigital.jira.plugin.report.practicemanager.DefectDensityReportPracticeManager">
+		<description
+			key="defect-density-report-practice-manager.description">The Defect Density Report Practice Manager Plugin</description>
+		<resource name="defectDensityPracticeView" type="velocity"
+			location="/templates/reports/defect-density-report-practice-manager/DefectDensityPracticeManager.vm" />
+		<resource name="i18n" type="i18n"
+			location="DefectDensityReportPraticeManager" />
+			<resource name="excel" type="velocity" location="/templates/reports/defect-density-report-practice-manager/excelViewPractice.vm"/>
+		<label key="defect-density-report-practice-manager.label"></label>
+		<properties>
+			<property>
+				<key>practice</key>
+				<name>Select Practice * :</name>
+				<description>defect-density-report-practice-manager.practiceselection
+				</description>
+				<type>select</type>
+				<i18n>false</i18n>
+				<values
+					class="com.tadigital.jira.valuegenerator.PracticeDropdownValuesGenerator" />
+			</property>
+			<property>
+				<key>band</key>
+				<name>Select Band :</name>
+				<description>defect-density-report-practice-manager.bandselection
+				</description>
+				<type>select</type>
+				<i18n>false</i18n>
+				<values
+					class="com.tadigital.jira.valuegenerator.DesignationDropdownValuesGenerator" />
+			</property>
+			<property>
+				<key>from</key>
+				<name>Select From :</name>
+				<description>defect-density-report-practice-manager.fromdate
+				</description>
+				<type>date</type>
+				<i18n>false</i18n>
+			</property>
+
+			<property>
+				<key>to</key>
+				<name>Select To :</name>
+				<description>defect-density-report-practice-manager.todate
+				</description>
+				<type>date</type>
+				<i18n>false</i18n>
+			</property>
+
+		</properties>
+	</report>
+</atlassian-plugin>

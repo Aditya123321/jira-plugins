@@ -1,0 +1,19 @@
+#disable_html_escaping()
+<div class="form-div">
+	<form name="project-category-filter" class="project-category-filter" action="?">
+		<div class="form-content">
+			<select name="categoryId" id="select-project-category" class="select-project-category">
+				#foreach ($mapEntry in $projectCategoryFilter.entrySet())
+					<option value="$mapEntry.key"
+					#if($mapEntry.key == $projectCategory)
+						 selected
+					#end
+					>
+					$mapEntry.value</option>
+				#end
+			</select>
+			<input type="submit" value="Filter" class="submit-btn" />
+		</div>
+		<input type="hidden" value="$reportKey" name="reportKey" />
+	</form>
+</div>

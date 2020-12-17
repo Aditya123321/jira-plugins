@@ -1,0 +1,71 @@
+#disable_html_escaping()
+<tr>				
+	<td style="text-align:left;">$data.developerData.name</td>
+	<td style="text-align:center;">$data.developerData.employeeId</td>
+	#if(${practiceName} == "All")
+		<td style="text-align:left;">$data.developerData.practice</td>
+	#end
+	<td style="text-align:left;">$data.developerData.designation</td>
+	<td style="text-align:center;">
+		<a style="text-decoration: none;" href="$jiraBaseUrl/issues/?jql=$developer+%3D+$data.developerData.jiraId++AND++issuetype+%3D+$subStory
+		#if($jqlFrom)
+			++AND++resolutiondate+%3E+'$jqlFrom'
+			#if($jqlTo)
+				++AND++resolutiondate+%3C+'$jqlTo'
+			#end
+		#elseif($jqlTo)
+			++AND++resolutiondate+%3C+'$jqlTo'
+		#end
+		++ORDER+BY+priority+DESC%2C+updated+DESC" target="_blank">$data.developerData.totalStories</a>
+	</td>
+	<td style="text-align:center;">
+		<span>
+			<a style="text-decoration: none;" href="$jiraBaseUrl/issues/?jql=$developer+%3D+$data.developerData.jiraId++AND++issuetype+%3D+$subStory++AND+status+%3D+$closed
+			#if($jqlFrom)
+				++AND++resolutiondate+%3E+'$jqlFrom'
+				#if($jqlTo)
+					++AND++resolutiondate+%3C+'$jqlTo'
+				#end
+			#elseif($jqlTo)
+				++AND++resolutiondate+%3C+'$jqlTo'
+			#end
+			++ORDER+BY+priority+DESC%2C+updated+DESC" target="_blank">$data.developerData.storiesConsidered</a>
+		</span>
+		#if($data.developerData.numberOfExcludedSubstories > 0)
+			<br/><span class="sub-stories">($data.developerData.numberOfExcludedSubstories sub-stories not counted)</span>
+		#end
+	</td>
+	<td style="text-align:center;">$data.estimatesData.architectEstimate</td>
+	<td style="text-align:center;">$data.estimatesData.originalEstimate</td>
+	<td style="text-align:center;">$data.estimatesData.actualEstimate</td>
+	<td style="text-align:center;">$data.estimatesData.remainingEstimate</td>
+	#set($devEstimateDeviation = $data.estimatesData.devEstimateDeviation)
+	#if($devEstimateDeviation <= 10)
+		#if($devEstimateDeviation < 0)
+        	#set($devEstimateDeviation = -1 * $devEstimateDeviation)
+        #end
+        <td style="text-align:center;color:#32c42f;">$devEstimateDeviation%</td>
+    #else
+    	<td style="text-align:center;color:red">$devEstimateDeviation%</td>
+    #end
+    
+    #set($architectDevDeviation = $data.estimatesData.architectDevDeviation)
+    #if($architectDevDeviation <= 10)
+    	#if($architectDevDeviation < 0)
+        	#set($architectDevDeviation = -1 * $architectDevDeviation)
+        #end
+        <td style="text-align:center;color:#32c42f;">$architectDevDeviation%</td>
+    #else
+    	<td style="text-align:center;color:red">$architectDevDeviation%</td>
+    #end
+    
+    #set($architectActualDeviation = $data.estimatesData.architectActualDeviation)
+    #if($architectActualDeviation <= 10)
+    	#if($architectActualDeviation < 0)
+        	#set($architectActualDeviation = -1 * $architectActualDeviation)
+        #end
+        <td style="text-align:center;color:#32c42f;">$architectActualDeviation%</td>
+    #else
+    	<td style="text-align:center;color:red">$architectActualDeviation%</td>
+    #end
+</tr>

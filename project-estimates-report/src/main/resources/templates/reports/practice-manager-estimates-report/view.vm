@@ -1,0 +1,143 @@
+#disable_html_escaping()
+
+<div>
+	#parse("templates/reports/practice-manager-estimates-report/filters.vm")
+	#if($none)
+		<p><sup class="red">*</sup>Please select practice from the dropdown</p>
+	#else
+		<table class="timeReportHeader" border="0" cellspacing="0" >
+	        <thead>
+	            <tr>
+	                <th nowrap="true">
+	                	<h3 class="bluetext">Estimates vs Actuals for Practice: ${practiceName}</h3>
+	                </th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	       </tbody>
+	    </table>
+	    <table class="timeReport" id="timeReport" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="small-head first-left">Name</th>
+					<th class="small-head emp-id">Emp. Id
+						<div class="header-tooltip hidden">Employee Id</div>
+					</th>
+					#if(${practiceName} == "All")
+						<th class="small-head">Practice</th>
+					#end
+					<th class="small-head">Designation</th>
+					<th class="small-head num-col">Tot. Sub-St.
+						<div class="header-tooltip header-tooltip-small hidden">Total Sub-Stories</div>
+					</th>
+					<th class="small-head num-col">Sub-St. cons.
+						<div class="header-tooltip hidden">Total Sub-Stories Considered</div>
+					</th>
+					<th class="small-head light-gray num-col">Arch. Est.
+						<div class="header-tooltip header-tooltip-small hidden">Architect Estimates</div>
+					</th>
+					<th class="small-head light-gray num-col">Dev. Est.
+						<div class="header-tooltip header-tooltip-small hidden">Developer estimates</div>
+					</th>
+					<th class="small-head light-red num-col">Actual
+						<div class="header-tooltip hidden">Actual hours logged by developers</div>
+					</th>
+					<th class="small-head light-red num-col">Remaining
+						<div class="header-tooltip hidden">Remaining hours according to estimation</div>
+					</th>
+					<th class="small-head light-yellow num-col">Dev. Est. dev. <sup>$</sup>
+						<div class="header-tooltip hidden">Developer Estimates deviation</div>
+					</th>
+					<th class="small-head light-yellow num-col">Arch. vs Dev. Est.<sup> ~</sup>
+						<div class="header-tooltip hidden">Architect vs Developer Estimates</div>
+					</th>
+					<th class="small-head light-yellow num-col">Arch. vs Act. Est.<sup> /</sup>
+						<div class="header-tooltip hidden">Architect vs Actual Estimates</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>             
+				#if(!$developersData.isEmpty())
+					#foreach ($data in $developersData)
+						#parse("templates/reports/practice-manager-estimates-report/table-body.vm")
+					#end
+				#else
+					<span class="red">No relevant data available</span>
+					<tr>			
+						<td class="figures first-left">--</td>
+						<td class="figures">--</td>
+						#if(${practiceName} == "All")
+							<td class="figures">--</td>
+						#end
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures  small-head">--</td>
+					</tr>
+				#end
+			</tbody>
+			<tfoot>
+	                <tr class="footer-header">
+	                	<th class="small-head first" colspan=#if(${practiceName} == "All") "6" #else "5" #end>Total: </th>
+	                    <th class="small-head">&nbsp;$totalEstimatesData.getArchitectEstimate()</th>
+	                    <th class="small-head">&nbsp;$totalEstimatesData.getOriginalEstimate()</th>
+	                    <th class="small-head">&nbsp;$totalEstimatesData.getActualEstimate()</th>
+	                    <th class="small-head">&nbsp;$totalEstimatesData.getRemainingEstimate()</th>
+	                    #set($aggregateDevDeviation = $totalEstimatesData.getDevEstimateDeviation())
+	                   	#if($aggregateDevDeviation <= 10)
+	                   		#if($aggregateDevDeviation < 0)
+					        	#set($aggregateDevDeviation = -1 * $totalEstimatesData.getDevEstimateDeviation())
+					        #end
+					        <th class="small-head">$aggregateDevDeviation%</th>
+					    #else
+					    	<th class="small-head red">$aggregateDevDeviation%</th>
+					    #end
+	                    
+	                    #set($aggregateArchitectDeviation = $totalEstimatesData.getArchitectDevDeviation())
+	                    #if($aggregateArchitectDeviation <= 10)
+	                    	#if($aggregateArchitectDeviation < 0)
+					        	#set($aggregateArchitectDeviation = -1 * $totalEstimatesData.getArchitectDevDeviation())
+					        #end
+					        <th class="small-head">$aggregateArchitectDeviation%</th>
+					    #else
+					    	<th class="small-head red">$aggregateArchitectDeviation%</th>
+					    #end
+					    
+					    #set($aggregateArchitectActualDeviation = $totalEstimatesData.getArchitectActualDeviation())
+					    #if($aggregateArchitectActualDeviation <= 10)
+					    	#if($aggregateArchitectActualDeviation < 0)
+					        	#set($aggregateArchitectActualDeviation = -1 * $totalEstimatesData.getArchitectActualDeviation())
+					        #end
+					        <th class="small-head">$aggregateArchitectActualDeviation%</th>
+					    #else
+					    	<th class="small-head red">$aggregateArchitectActualDeviation%</th>
+					    #end
+	                </tr>
+	            </tfoot>
+		</table>
+		<div>
+			<small><b>Table headers:</b></small></br>
+			<small>Tot. Sub-St. = Total Sub-Stories</small><br/>
+			<small>Sub-St. cons. = Sub-Stories considered</small><br/>
+			<small>Arch. Est. = Architect Estimates</small><br/>
+			<small>Dev. Est. = Developer Estimates</small><br/>
+			<small>Dev. Est. dev. = Developer Estimates deviation</small><br/>
+			<small>Arch. vs Dev. Est. = Architect vs Developer Estimates</small><br/>
+			<small>Arch. vs Act. Est. = Architect vs Actual Estimates</small><br/>
+			<small>~  Architect vs Dev Estimates = 100 * (Original Estimate (Dev) - Architect Estimate)/Architect Estimate</small><br/>
+		    <small>$  Dev Estimate Deviation = 100 * (Actual + Remaining - Original Estimate (Dev))/Original Estimate (Dev)</small><br/>
+		    <small>/  Architect vs Actual Estimates = 100 * (Actual + Remaining - Architect Estimate)/Architect Estimate</small><br/>
+			<small><b>Note :</b><br/> 1. All Estimates are in terms of Hours</small>
+			<br/>
+			<small> 2. Only Sub-Stories with closed status is considered for report.</small>
+	        <br/>
+		</div>
+	#end
+</div>
+$webResourceManager.requireResourcesForContext("project.estimates.report.plugin.resources")

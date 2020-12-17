@@ -1,0 +1,7 @@
+/stories-importer/target/
+/stories-importer/atlassian-connect.json
+/stories-importer/plugin.html
+*/target/*
+/.metadata/
+
+#!*/target/*.jar

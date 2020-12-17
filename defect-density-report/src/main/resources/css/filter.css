@@ -1,0 +1,44 @@
+/* Project Category filter */
+.project-category-filter {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.form-content .select-project-category {
+    width: fit-content;
+    max-width: max-content;
+    padding-right: 10px;
+    margin-right: 15px;
+    height: 30px;
+    border: none;
+    border-bottom: none;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #ebecf0;
+    border-radius: 3px;
+}
+
+.form-content select option {
+    font-weight: 500;
+    color: #42526e;
+    font-size: 14px;
+    background-color: #fff;
+}
+.submit-btn {
+    border: none;
+    height: 24px;
+    margin: 3px;
+    cursor: pointer;
+    background-color: #0052cc;
+    color: #fff;
+    border-radius: 3px;
+     outline: none;
+}
+
+.form-content .select-project-category:focus {
+    outline: none;
+}
+
+.form-div {
+	width: 800px;
+}

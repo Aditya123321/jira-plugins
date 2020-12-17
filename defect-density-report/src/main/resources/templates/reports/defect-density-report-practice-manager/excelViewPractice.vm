@@ -1,0 +1,95 @@
+#disable_html_escaping()
+
+#if(!$dataPresent)
+
+        <table class="timeReport" id="timeReport" border="1" cellspacing="0">
+            <thead>
+               <tr>
+                	<th class="small-head first-left"> Developer Name </th>
+                	<th class="small-head"> Employee Id </th>
+                	<th class="small-head"> Band</th>
+                	
+                	<th class="small-head "> Designation </th>
+                	<th class="small-head light-gray"> Total Sub-Stories Worked On </th>
+                	<th class="small-head light-gray"> Total Sub-Stories Considered<b>$</b> </th>					
+					<th class="small-head light-red"> Architect Estimates (Total)</th>
+					<th class="small-head light-red"> Developer Estimates (Total) </th>
+					<th class="small-head light-red"> Actual Hours (Dev) <br/> (Total) </th>
+					<th class="small-head light-red"> Total Defects </th>
+					<th class="small-head defect-density light-yellow"> Defect Density  <b>*</b> <br/><small>(based on Architect Est.)</small> </th>
+					<th class="small-head defect-density light-yellow"> Defect Density  <b>†</b> <br/><small> (based on Developer Est.)</small> </th>
+					<th class="small-head defect-density light-yellow"> Defect Density <b>^</b> <br/><small> (based on Actual Hours.)</small> </th>
+                </tr>
+            </thead>
+             <tbody>
+            	#if(!$allData.isEmpty())
+                   #foreach ($stat in $allData)
+						#parse("templates/reports/defect-density-report-practice-manager/DataRows.vm")
+			  	   #end
+			  	#else
+             <tr>			
+					<td class="figures first-left">--</td>			
+					<td class="figures">--</td>
+					<td class="figures">--</td>							
+					<td class="figures">--</td>
+					<td class="figures">--</td>					
+					<td class="figures">--</td>	
+					<td class="figures">--</td>					
+					<td class="figures">--</td>
+					<td class="figures">--</td>					
+					<td class="figures">--</td>						
+					<td class="figures  small-head">--</td>						
+				</tr> 
+				#end		
+            </tbody>
+			 <tfoot>
+                 <tr>
+                 		
+					<th class="small-head footer-first-left" colspan="3">Total</th>														
+					<th class="small-head footer-head">$total.totalStories</th>
+					<th class="small-head footer-head">$total.totalSubStoriesConsidered</th>
+					<th class="small-head footer-head">$total.architectEstimates</th>
+					<th class="small-head footer-head">$total.originalEstimatesTotal</th>
+					<th class="small-head footer-head">$total.actualHours</th>
+					<th class="small-head footer-head">$total.defects </th>
+					<th class="small-head footer-head">$total.defectDensityArchitect</th>
+					<th class="small-head footer-head">$total.defectDensity</th>
+					<th class="small-head footer-head">$total.defectDensityActual</th>      				
+				</tr>
+            </tfoot>     
+        </table>
+				
+		<small>*Defect Density (based on Architect Est.)  = (Total Defects / Architect Estimates) * 800</small>
+		<div>
+			<small>†Defect Density (based on Original Est.)   = (Total Defects / Original Estimates) * 800</small>
+		</div>
+		<div>
+			<small>^Defect Density (based on Actual Hours)   = (Total Defects / Actual Hours) * 800</small>
+		</div>
+		<div><small>$ - Total Tickets Considered: Only Tickets with both Architect Estimate and Developer Estimate populated are 
+			considered for Defect Density based on Architect Est. and Defect Density based on Developer Est.</div>
+		<div>
+			<small><b>Note :</b>
+        	<br/> 1. All Estimates are in terms of Hours
+        </small>
+         <small>
+        	<br/> 2. Developer role is mandatory to be filled in for sub story, bugs and defects to reflect here. 
+        </small>
+        <small>
+        	<br/> 3. Total Sub-Stories - Includes all the Sub-Stories which were closed during the selected time-period. 
+        </small>
+         <small>
+        	<br/> 4. Total Defects - Includes all the Sub-Defects and Bugs raised/created during the selected time-period. 
+        </small>
+         <small>
+        	<br/> 5. Developer Estimates = Original Estimates(Standard Jira Field). 
+        </small>
+		</div>
+		
+				
+		#else 
+			<span>Please select relevant values from the dropdown to view the report.</span>
+		#end
+
+
+

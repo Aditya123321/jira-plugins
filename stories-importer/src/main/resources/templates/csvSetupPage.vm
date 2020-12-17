@@ -1,0 +1,48 @@
+#parse('/templates/admin/views/common/import-header.vm')
+
+## #set ($auiparams =
+## 	$map.build('hidden',false, 'label', "Enter File",'controlHeaderClass',"jimFileInput",'description',"Max size :10MB", 'name',"myFileupload"))
+
+<div class="aui">
+    <fieldset>
+        <div class="field-group">
+            <label>Select File:</label>
+            <label class="ffi" id="fileLabel" data-ffi-button-text="Browse">
+                <input type="file" accept=".csv" id="uniqueInputFile" name="uniqueInputFile" aria-label="Fancy File Input" class="ignore-inline-attach">
+           		<button id="ffi-clear" class="ffi-clear" type="button" tabindex="-1">Clear</button>
+            </label>
+            
+            <span hidden id="attach-max-size">10240</span>
+			
+        </div>
+		<div class="field-group">
+        	<span id="fileLoadingAnimation" class="file-loading-animation">Uploading...</span>
+       		<button class="aui-button aui-button-primary" id="uploadUniqueFile">Upload</button>
+       
+    	</div>
+		<div class="message">
+        	<label aria-label="empty label"></label>
+        
+            <!-- show warning message-->
+            <div id="fileUploadStatusMessage" class="aui-message aui-message-warning aui-message-controls">
+                <p><span  id="showStatusMessage"></span> <span  class="aui-icon aui-icon-small aui-iconfont-cross aui-iconfont-cross-close">Close</span></p>
+                
+            </div><!-- .aui-message --> 
+    	</div>
+        <div class="confluence-link">
+            <a href="https://confluence.tadigital.com/display/TIBA/Excel+Template" target="_blank">
+                Click here to go to confluence 
+            </a>
+        </div>
+		
+    </fieldset>
+	
+</div>
+
+#parse("/templates/admin/views/common/standardSetupFooter.vm")
+#requireResource("confluence.web.resources:jquery")
+#requireResource("com.atlassian.jira.plugins.jira-importers-plugin:wstories-estimates-importer-resources")
+
+
+
+

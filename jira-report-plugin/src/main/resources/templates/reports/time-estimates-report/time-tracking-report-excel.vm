@@ -1,0 +1,73 @@
+#disable_html_escaping()
+#if ($subtasksEnabled)
+    #set ($colspanCount = 15)
+#else
+    #set ($colspanCount = 10)
+#end
+
+#if (!$issues.isEmpty())
+        <table class="timeReport" id="timeReport" border="0" cellspacing="0">
+            <thead>
+                <tr>
+
+                    <th class="small-head">Story Id</th>
+                    <th class="small-head">Title</th>
+                    <th class="small-head">Status</th>
+                    <th class="small-head">Planning Estimate <br>(In Hours)</th>
+                    <th class="small-head">Dev Estimate <br>(In Hours)</th>
+                    <th class="small-head">Actual <br>(In Hours)</th>
+                    <th class="small-head">Remaining <br>(In Hours)</th>
+                    <th class="small-head">Total <br>(Actual+Remaining)</th>
+                    <th class="small-head">Dev Estimate Deviation</th>
+                    <th class="small-head">Planning Estimate <br/><b>&#247;</b><br/>Dev Estimate</th>
+                </tr>
+            </thead>
+            <tbody>
+                #foreach ($issue in $issues)
+                    #set($issueActualTime = $issueActualTimes.get($issue.getSummary()))
+                    #set($issueRemainingTime = $issueRemainingTimes.get($issue.getSummary()))
+                    #set($devEstimate = $devEstimates.get($issue.getSummary()))
+                    #set($planEstimate = $planEstimates.get($issue.getSummary()))
+                    #set($devDeviation = $summaryBean.getDevDeviation().get($issue.getSummary()))
+                    #set($deviation = $summaryBean.getDeviation().get($issue.getSummary()))
+                    #set($totalEstimate = $totalTimeEstimate.get($issue.getSummary()))
+                    #parse("templates/reports/time-estimates-report/time-tracking-issue-excel.vm")
+                    #foreach ($subtask in $issue.getSubTasks())
+                        #set($subTaskActualTime = $subTaskActualTimes.get($subtask.getSummary()))
+                        #set($subTaskRemainingTime = $subTaskRemainingEstimates.get($subtask.getSummary()))
+                        #set($subTaskPlanEstimate = $subTaskPlanEstimates.get($subtask.getSummary()))
+                        #set($subTaskDevEstimate = $subTaskDevEstimates.get($subtask.getSummary()))
+                        #set($totalSubTask = $totalSubTaskTime.get($subtask.getSummary()))
+                        #parse("templates/reports/time-estimates-report/time-tracking-subtask-excel.vm")
+                    #end
+                    #set($myNumber = $myNumber+1)
+                #end
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2"  class="small-head first">Total Stories: $issuesSize</th>
+                    <th colspan="1"  class="small-head first"></th>
+                    <th class="small-head">&nbsp;$summaryBean.getAggregatePlanEstimates()</th>
+                    <th class="small-head">&nbsp;$summaryBean.getAggregateDevEstimates()</th>
+                    <th class="small-head">&nbsp;$aggregateIssueEstimate</th>
+                    <th class="small-head">&nbsp;$aggregateIssueRemainingTime</th>
+                    <th class="small-head">&nbsp;$aggregateTotal</th>
+                </tr>
+            </tfoot>
+        </table>
+    #end
+
+<tr>
+    <td bgcolor="#ffffff" colspan="${colspanCount}">&nbsp;</td>
+</tr>
+<tr>
+    <td bgcolor="#dddddd" colspan="${colspanCount}"><font size=1>
+        #if ($remoteUser)
+            $descriptor.getText("report.timetracking.generated.user.info", [$createDate, $textutils.htmlEncode($remoteUser.getDisplayName()), $buildInfo])
+        #else
+            $descriptor.getText("report.timetracking.generated.anon.info", [$createDate, $buildInfo])
+        #end
+    </font></td>
+</tr>
+</table>
+

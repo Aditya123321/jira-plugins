@@ -1,0 +1,54 @@
+#disable_html_escaping()
+
+#set ($doNotPrintAggregates = ($issue.isSubTask() && !$issue.isOrphan()))
+#set($title= $issue.getSummary())
+<tr bgcolor="#ffffff">
+     <td style="text-align:left;">
+         #if($hasSubTask.get($issue.getKey()))
+            <span Title="Subtask" class="aui-subtask-icon aui-button-subtask aui-button-subtask-$myNumber">
+            </span>
+         #end
+         <a style="text-decoration: none;" href="$jiraBaseUrl/browse/${issue.getKey()}">$issue.getKey()</a>
+     </td>
+    
+    <td style="text-align:left;">
+        <span title="$issue.getSummary()">$title</span>
+    </td>
+    <td style="text-align:center;">
+        #set ($simpleStatus = $issue.issue.statusObject.simpleStatus)
+        #set ($isIssueStatusSubtle = true)
+        #parse("/static/util/issue/status.vm")
+    </td>
+    <td style="text-align:center;">$architectEstimate</td>
+    <td style="text-align:center;">$devEstimate</td>
+    <td style="text-align:center;">$issueActualTime</td>
+    <td style="text-align:center;">$issueRemainingTime</td>
+   
+    #if($devDeviation <= 10)
+    	#if($devDeviation < 0)
+        	#set($devDeviation = -1 * $devDeviation)
+        #end
+        <td style="text-align:center;color:#32c42f;">$devDeviation%</td>
+    #else
+    	<td style="text-align:center;color:red">$devDeviation%</td>
+    #end
+    
+    #if($architectOriginalDeviation <= 10)
+    	#if($architectOriginalDeviation < 0)
+    		#set($architectOriginalDeviation = -1 * $architectOriginalDeviation)
+    	#end
+        <td style="text-align:center;color:#32c42f;">$architectOriginalDeviation%</td>
+    #else
+    	<td style="text-align:center;color:red">$architectOriginalDeviation%</td>
+    #end
+    
+    #if($architectActualDeviation <= 10)
+    	#if($architectActualDeviation < 0)
+        	#set($architectActualDeviation = -1 * $architectActualDeviation)
+        #end
+        <td style="text-align:center;color:#32c42f;">$architectActualDeviation%</td>
+    #else
+    	<td style="text-align:center;color:red">$architectActualDeviation%</td>
+    #end
+   
+</tr>

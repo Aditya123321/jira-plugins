@@ -1,0 +1,101 @@
+#disable_html_escaping()
+
+<div>
+	#parse("templates/reports/delivery-head-estimates-report/project-category-filter.vm")
+	#if($none)
+		<p><sup class="red">*</sup>Please select a project category from the dropdown</p>
+	#else
+	   <table class="timeReportHeader" border="0" cellspacing="0" >
+	        <thead>
+	            <tr>
+	                <th nowrap="true">
+	                	<h3 class="bluetext">Estimates vs Actuals for Project Group: ${categoryName}</h3>
+	                </th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	       </tbody>
+	    </table>
+		<table class="timeReport" id="timeReport" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="small-head first-left"> Project Category </th>
+					<th class="small-head">Project</th>
+					<th class="small-head">Project Status</th>
+					<th class="small-head">Project Lead</th>
+					<th class="small-head num-col">Tot. St.
+						<div class="header-tooltip header-tooltip-small hidden">Total Stories</div>
+					</th>
+					<th class="small-head num-col">St. Cons.
+						<div class="header-tooltip header-tooltip-small hidden">Stories Considered</div>
+					</th>
+					<th class="small-head light-gray num-col">Arch. Est.
+						<div class="header-tooltip header-tooltip-small hidden">Architect Estimate</div>
+					</th>
+					<th class="small-head light-gray num-col">Dev. Est.
+						<div class="header-tooltip header-tooltip-small hidden">Developer Estimate</div>
+					</th>
+					<th class="small-head light-red num-col">Actual
+						<div class="header-tooltip hidden">Actual hours logged by developers</div>
+					</th>
+					<th class="small-head light-red num-col">Remaining
+						<div class="header-tooltip hidden">Remaining hours according to estimation</div>
+					</th>
+					<th class="small-head light-yellow num-col">Dev. Est. dev. <sup> $</sup>
+						<div class="header-tooltip hidden">Developer Estimate deviation</div>
+					</th>
+					<th class="small-head light-yellow num-col">Arch. vs Dev. Est. <sup> ~</sup>
+						<div class="header-tooltip hidden">Architect vs Developer Estimates</div>
+					</th>
+					<th class="small-head light-yellow num-col">Arch. vs Act. Est. <sup> /</sup>
+						<div class="header-tooltip hidden"> Architect vs Actual Estimates</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				#if(!$projectsData.isEmpty())
+					#foreach ($projectData in $projectsData)
+						#parse("templates/reports/delivery-head-estimates-report/table-body.vm")
+					#end	
+				#else
+					<span class="red">No relevant data available</span>
+					<tr>			
+						<td class="figures first-left">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures">--</td>
+						<td class="figures  small-head">--</td>			
+					</tr>
+				#end
+			</tbody>
+		</table>
+		<div>
+			<small><b>Table headers:</b></small></br>
+			<small>Tot. St. = Total Stories</small><br/>
+			<small>St. Cons. = Stories Considered</small><br/>
+			<small>Arch. Est. = Architect Estimate</small><br/>
+			<small>Dev. Est. = Developer Estimate</small><br/>
+			<small>Dev. Est. dev. = Developer Estimate deviation</small><br/>
+			<small>Arch. vs Dev. Est. = Architect vs Developer Estimates</small><br/>
+			<small>Arch. vs Act. Est. = Architect vs Actual Estimates</small><br/>
+	        <small>~  Architect vs Dev Estimates = 100 * (Original Estimate (Dev) - Architect Estimate)/Architect Estimate</small><br/>
+	        <small>$  Dev Estimate Deviation = 100 * (Actual + Remaining - Original Estimate (Dev))/Original Estimate (Dev)</small><br/>
+	        <small>/  Architect vs Actual Estimates = 100 * (Actual + Remaining - Architect Estimate)/Architect Estimate</small><br/>
+			<small><b>Note :</b><br/> 1. All Estimates are in terms of Hours</small>
+			<br/>
+	        <small> 2. On click of the project link, user will be re-directed to Project Estimates Report for that project.</small>
+	        <br/>
+	        <small> 3. Only Stories with closed status is considered for report.</small>
+	        <br/>
+		</div>
+	#end
+</div>
+$webResourceManager.requireResourcesForContext("project.estimates.report.plugin.resources")

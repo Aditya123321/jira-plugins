@@ -1,0 +1,37 @@
+#disable_html_escaping()
+<div>
+	<form name="project-category-filter" class="project-category-filter" action="?">
+		<div class="form-content">
+			<select name="practice" id="select-project-category" class="select-project-category">
+				#foreach ($mapEntry in $practiceFilter.entrySet())
+					<option value="$mapEntry.key"
+					#if($mapEntry.key == $practiceName)
+						 selected
+					#end
+					>
+					$mapEntry.value</option>
+				#end
+			</select>
+			<select name="band" id="select-project-category" class="select-project-category">
+				#foreach ($mapEntry in $bandFilter.entrySet())
+					<option value="$mapEntry.key"
+					#if($mapEntry.key == $band)
+						 selected
+					#end
+					>
+					$mapEntry.value</option>
+				#end
+			</select>
+			<label for="from">
+                <input class="date-picker" name="from" id="from-date" type="date" placeholder="dd-mm-yy" autocomplete="false"/>
+            </label>
+            <label for="to">
+                <input class="date-picker" name="to" id="to-date" type="date" placeholder="dd-mm-yy" autocomplete="false"/>
+            </label>
+          <input type="submit" value="Filter" class="submit-btn" />
+		</div>
+		<input type="hidden" value="$reportKey" name="reportKey" />
+		<input type="hidden" value="$fromDate" name="fromDate" id="from-date-hidden" />
+		<input type="hidden" value="$toDate" name="toDate" id="to-date-hidden" />
+	</form>
+</div>

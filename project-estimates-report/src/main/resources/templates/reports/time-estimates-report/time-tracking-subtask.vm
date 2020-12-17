@@ -1,0 +1,77 @@
+#disable_html_escaping()
+#macro (displayEstimate $estimate)
+	#if(! $estimate)
+		--
+	#else
+		$estimate
+	#end
+#end
+
+#macro (displayDeviation $deviation)
+	#if(! $deviation)
+		--
+	#else
+		$deviation%
+	#end
+#end
+
+#set ($doNotPrintAggregates = ($issue.isSubTask() && !$issue.isOrphan()))
+
+## Resetting variables to false. If not done, it keeps the previous value of variables if the RHS of assignment operation returns null. 
+## Due to this previous sub-task data is displayed when current sub-task doesn't have data.
+#set($subDevDeviation = false)
+#set($subDevDeviation = $subTaskDevDeviation.get($subtask.getKey()))
+
+#set($subArchitectDevDevition = false)
+#set($subArchitectDevDevition = $subTaskArchitectDevDeviation.get($subtask.getKey()))
+
+#set($subArchitectActualDevition = false)
+#set($subArchitectActualDevition = $subTaskArchitectActualDeviation.get($subtask.getKey()))
+
+#set($title= $subtask.getSummary())
+
+<tr bgcolor="#ffffff"  class="aui-expander-subtask aui-row-subtask-$myNumber">
+   <td class="issue-key issue-key-row"><a href="$req.contextPath/browse/${subtask.getKey()}">$subtask.getKey()</a>
+    </td>
+   <td class="figures title">
+        <span title="$title">$title</span>
+    </td>
+    <td class="figures">
+        #set ($simpleStatus = $subtask.issue.statusObject.simpleStatus)
+        #set ($isIssueStatusSubtle = true)
+        #parse("/static/util/issue/status.vm")
+    </td>
+    <td class="figures">#displayEstimate($subTaskArchitectEstimate)</td>
+    <td class="figures">#displayEstimate($subTaskDevEstimate)</td>
+    <td class="figures">$subTaskActualTime</td>
+    <td class="figures">$subTaskRemainingTime</td>
+    
+    #if($subDevDeviation <= 10)
+    	#if($subDevDeviation < 0)
+        	#set($subDevDeviation = -1 * $subDevDeviation)
+        #end
+        <td class="figures deviation-success">#displayDeviation($subDevDeviation)</td>
+    #else
+    	<td class="figures red">#displayDeviation($subDevDeviation)</td>
+    #end
+    
+    #if($subArchitectDevDevition <= 10)
+    	#if($subArchitectDevDevition < 0)
+    		#set($subArchitectDevDevition = -1 * $subArchitectDevDevition)
+    	#end
+        <td class="figures last deviation-success">#displayDeviation($subArchitectDevDevition)</td>
+    #else
+    	<td class="figures last red">#displayDeviation($subArchitectDevDevition)</td>
+    #end
+    
+    #if($subArchitectActualDevition <= 10)
+    	#if($subArchitectActualDevition < 0)
+        	#set($subArchitectActualDevition = -1 * $subArchitectActualDevition)
+        #end
+        <td class="figures last deviation-success">#displayDeviation($subArchitectActualDevition)</td>
+    #else
+    	<td class="figures last red">#displayDeviation($subArchitectActualDevition)</td>
+    #end
+    
+
+</tr>

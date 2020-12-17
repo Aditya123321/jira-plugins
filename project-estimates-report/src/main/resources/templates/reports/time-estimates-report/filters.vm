@@ -1,0 +1,51 @@
+#disable_html_escaping()
+<div>
+	#foreach ($status in $statuses)
+    	<input type="hidden" value="$status" name="selectedStatus" class="hidden-status" />
+	#end
+	<form name="status-filter" class="status-filter" action="?">
+		<div class="form-content">
+			<select name="projectValues" id="select-project-category" class="select-project-category">
+				#foreach ($mapEntry in $projectFilter.entrySet())
+					<option value="$mapEntry.key"
+					#if($mapEntry.key == $projectValues)
+						 selected
+					#end
+					>
+					$mapEntry.value</option>
+				#end
+			</select>
+			<select name="sprintValues" id="select-project-category" class="select-project-category">
+				#foreach ($mapEntry in $sprintFilter.entrySet())
+					<option value="$mapEntry.key"
+					#if($mapEntry.key == $sprint)
+						 selected
+					#end
+					>
+					$mapEntry.value</option>
+				#end
+			</select>
+			<div class="select-status-div">
+				<select id="select-status">
+					<option hidden>Select Status</option>
+				</select>
+				<div class="status-list" id="checkboxes">
+					<div class="select-all">
+						<label for="select-all">
+							<input type="checkbox" id="select-all" />
+							<span class="status">select all</span>
+						</label>
+					</div>
+					#foreach ($mapEntry in $statusFilter.entrySet())
+						<label for="$mapEntry.value">
+							<input type="checkbox" id="$mapEntry.value" name="status" value="$mapEntry.value"/>
+							<span class="status">$mapEntry.value</span>
+						</label>
+					#end
+				</div>
+			</div>
+			<input type="submit" value="Filter" class="submit-btn" />
+		</div>
+		<input type="hidden" value="$reportKey" name="reportKey" />
+	</form>
+</div>

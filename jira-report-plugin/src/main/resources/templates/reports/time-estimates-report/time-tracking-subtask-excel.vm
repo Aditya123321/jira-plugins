@@ -1,0 +1,27 @@
+#disable_html_escaping()
+
+#set ($doNotPrintAggregates = ($issue.isSubTask() && !$issue.isOrphan()))
+
+#set($subDevDeviation = $subTaskDevDeviation.get($subtask.getSummary()) * 100)
+#set($subDeviation = $subTaskDeviation.get($subtask.getSummary()) * 100)
+<tr bgcolor="#ffffff"  class="aui-expander-subtask aui-row-subtask-$myNumber">
+   <td class="issue-key"><a href="$req.contextPath/browse/${issue.getKey()}">$subtask.getKey()</a>
+    </td>
+    <td class="figures">$subtask.getSummary()</td>
+    <td class="figures">
+        #set ($simpleStatus = $subtask.issue.statusObject.simpleStatus)
+        #set ($isIssueStatusSubtle = true)
+        #parse("/static/util/issue/status.vm")
+    </td>
+    <td class="figures">$subTaskPlanEstimate</td>
+    <td class="figures">$subTaskDevEstimate</td>
+    <td class="figures">$subTaskActualTime</td>
+    <td class="figures">$subTaskRemainingTime</td>
+    <td class="figures">$totalSubTask</td>
+    #if($subDevDeviation > 0)
+        <td class="figures red">$subDevDeviation%</td>
+    #else
+        <td class="figures">$subDevDeviation%</td>
+    #end
+    <td class="figures">$subDeviation%</td>
+</tr>

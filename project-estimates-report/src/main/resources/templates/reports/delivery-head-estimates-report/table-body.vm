@@ -1,0 +1,67 @@
+#disable_html_escaping()
+<tr>			
+	<td class="figures first-left" title="$projectData.projectCategory">$projectData.projectCategory</td>
+	<td class="figures project-name">
+		<a href="ConfigureReport.jspa?status=Closed&projectValues=$projectData.projectId&reportKey=com.tadigital.jira.plugin.report.project-estimates-report%3Atime-estimates-report" target="_blank" title="$projectData.projectName">
+			$projectData.projectName
+		</a>
+	</td>
+	#if($projectData.projectStatus)
+		<td class="figures">
+	        #set ($simpleStatus = $projectData.projectStatus)
+	        #set ($isIssueStatusSubtle = true)
+	        #parse("/static/util/issue/status.vm")
+	    </td>
+    #else
+    	<td class="figures red" title=
+    	#if($projectData.numberOfRelease == 0)
+    		"Release Issue Not Found">Release Issue Not Found
+    	#else
+    		"Multiple Release Issue">Multiple Release Issue
+    	#end
+    	</td>
+    #end
+	<td class="figures project-lead" title="$projectData.projectLead">$projectData.projectLead</td>
+	<td class="figures">
+		<a href="/issues/?jql=project+%3D+$projectData.projectKey+AND+issuetype+%3D+$story++ORDER+BY+priority+DESC%2C+updated+DESC" target="_blank">$projectData.totalStories</a>
+	</td>
+	<td class="figures stories-considered">
+		<span><a href="/issues/?jql=project+%3D+$projectData.projectKey+AND+issuetype+%3D+$story++AND+status+%3D+$closed++ORDER+BY+priority+DESC%2C+updated+DESC" target="_blank">$projectData.storiesConsidered</a></span>
+		#if($projectData.numberOfExcludedSubstories > 0)
+		<br/><span class="sub-stories">($projectData.numberOfExcludedSubstories sub-stories not counted)</span>
+		#end
+	</td>
+	<td class="figures">$projectData.estimatesData.architectEstimate</td>
+	<td class="figures">$projectData.estimatesData.originalEstimate</td>
+	<td class="figures">$projectData.estimatesData.actualEstimate</td>
+	<td class="figures">$projectData.estimatesData.remainingEstimate</td>
+	#set($devEstimateDeviation = $projectData.estimatesData.devEstimateDeviation)
+	#if($devEstimateDeviation <= 10)
+		#if($devEstimateDeviation < 0)
+        	#set($devEstimateDeviation = -1 * $devEstimateDeviation)
+        #end
+        <td class="figures deviation-success">$devEstimateDeviation%</td>
+    #else
+    	<td class="figures red">$devEstimateDeviation%</td>
+    #end
+    
+    #set($architectDevDeviation = $projectData.estimatesData.architectDevDeviation)
+    #if($architectDevDeviation <= 10)
+    	#if($architectDevDeviation < 0)
+        	#set($architectDevDeviation = -1 * $architectDevDeviation)
+        #end
+        <td class="figures deviation-success">$architectDevDeviation%</td>
+    #else
+    	<td class="figures red">$architectDevDeviation%</td>
+    #end
+    
+    #set($architectActualDeviation = $projectData.estimatesData.architectActualDeviation)
+    #if($architectActualDeviation <= 10)
+    	#if($architectActualDeviation < 0)
+        	#set($architectActualDeviation = -1 * $architectActualDeviation)
+        #end
+        <td class="figures deviation-success">$architectActualDeviation%</td>
+    #else
+    	<td class="figures red">$architectActualDeviation%</td>
+    #end
+</tr>

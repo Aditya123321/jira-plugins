@@ -1,0 +1,78 @@
+#disable_html_escaping()
+
+
+#set( $myNumber = 1 )
+<p id="excel-download" class="excel"><a href="ConfigureReport!excelView.jspa?atl_token=BWP3-NZB2-6EDY-6C7K_9e5598f77662d593a311d4df22e4f7d13191048a_lin&amp;reportKey=com.atlassian.plugins.tutorial.jira.jira-report-plugin%3Atime-estimates-report&amp;epicValues=1&amp;selectedProjectId=10000&amp;atl_token=BWP3-NZB2-6EDY-6C7K_9e5598f77662d593a311d4df22e4f7d13191048a_lin&amp;storyValues=1&amp;Next=Next">Excel View</a></p>
+<div>
+    <table class="timeReportHeader" border="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th nowrap="true"><h3 class="bluetext">Project Estimates vs Actual Report&nbsp;$textutils.htmlEncode($action.getSelectedProject().getName())
+                #if($version.getId())
+                    &nbsp;($textutils.htmlEncode($version.getName()))
+                #end
+                </h3>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+       </tbody>
+    </table>
+    #if (!$issues.isEmpty())
+        <table class="timeReport" id="timeReport" border="0" cellspacing="0">
+            <thead>
+                <tr>
+                    
+                    <th class="small-head">Story Id</th>
+                    <th class="small-head">Title</th>
+                    <th class="small-head">Status</th>
+                    <th class="small-head">Planning Estimate&nbsp;<data value="hour">(h)</data></th>
+                    <th class="small-head">Dev Estimate&nbsp;<data value="hour">(h)</data></th>
+                    <th class="small-head">Actual&nbsp;<data value="hour">(h)</data></th>
+                    <th class="small-head">Remaining&nbsp;<data value="hour">(h)</data></th>
+                    <th class="small-head">Total <br>(Actual+Remaining)&nbsp;<data value="hour">(h)</data></th>
+                    <th class="small-head">Dev Estimate Deviation</th>
+                    <th class="small-head">Planning Estimate <br/>vs &nbsp;Dev Estimate &nbsp;†</th>
+                </tr>
+            </thead>
+            <tbody>
+                #foreach ($issue in $issues)
+                    #set($issueActualTime = $issueActualTimes.get($issue.getSummary()))
+                    #set($issueRemainingTime = $issueRemainingTimes.get($issue.getSummary()))
+                    #set($devEstimate = $devEstimates.get($issue.getSummary()))
+                    #set($planEstimate = $planEstimates.get($issue.getSummary()))
+                    #set($devDeviation = $summaryBean.getDevDeviation().get($issue.getSummary()))
+                    #set($deviation = $summaryBean.getDeviation().get($issue.getSummary()))
+                    #set($totalEstimate = $totalTimeEstimate.get($issue.getSummary()))
+                    #parse("templates/reports/time-estimates-report/time-tracking-issue.vm")
+                    #foreach ($subtask in $issue.getSubTasks())
+                        #set($subTaskActualTime = $subTaskActualTimes.get($subtask.getSummary()))
+                        #set($subTaskRemainingTime = $subTaskRemainingEstimates.get($subtask.getSummary()))
+                        #set($subTaskPlanEstimate = $subTaskPlanEstimates.get($subtask.getSummary()))
+                        #set($subTaskDevEstimate = $subTaskDevEstimates.get($subtask.getSummary()))
+                        #set($totalSubTask = $totalSubTaskTime.get($subtask.getSummary()))
+                        #parse("templates/reports/time-estimates-report/time-tracking-subtask.vm")
+                    #end
+                    #set($myNumber = $myNumber+1)
+                #end
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2"  class="small-head first">Total Stories: $issuesSize</th>
+                    <th colspan="1"  class="small-head first"></th>
+                    <th class="small-head">&nbsp;$summaryBean.getAggregatePlanEstimates()</th>
+                    <th class="small-head">&nbsp;$summaryBean.getAggregateDevEstimates()</th>
+                    <th class="small-head">&nbsp;$aggregateIssueEstimate</th>
+                    <th class="small-head">&nbsp;$aggregateIssueRemainingTime</th>
+                    <th class="small-head">&nbsp;$aggregateTotal</th>
+                    <th class="small-head" colspan="2"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <small>†  Plg Estimate vs Dev Estimate = 100% (dev estimate - planning estimate)/planning estimate</small> <br/>
+        <small>Time estimate in hours (h)</small>
+    #end
+</div>
+
+
+$webResourceManager.requireResourcesForContext("jira.report.plugin.resources")

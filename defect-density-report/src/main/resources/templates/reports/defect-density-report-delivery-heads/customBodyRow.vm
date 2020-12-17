@@ -1,0 +1,57 @@
+
+		<tr>			
+			<td class="figures first-left">$stat.projectCategory</td>			
+			<td class="figures project-name">
+				<a href="/secure/ConfigureReport.jspa?projectId=$stat.projectId&reportKey=com.tadigital.jira.plugin.report.defect-density-report%3Adefect-density-report">
+				$stat.project</a>
+			</td>
+			#if($stat.projectStatus)
+				<td class="figures">
+			        #set ($simpleStatus = $stat.projectStatus)
+			        #set ($isIssueStatusSubtle = true)
+			        #parse("/static/util/issue/status.vm")
+			    </td>
+		    #else
+		    	<td class="figures red" title=
+		    	#if($stat.numberOfRelease == 0)
+		    		"Release Issue Not Found">Release Issue Not Found
+		    	#else
+		    		"Multiple Release Issue">Multiple Release Issue
+		    	#end
+		    	</td>
+		    #end
+			<td class="figures project-lead">$stat.projectLead</td>
+			<td class="figures">$stat.totalStories</td>
+			<td class="figures">$stat.totalSubStoriesConsidered</td>
+			<td class="figures">$stat.architectEstimates </td>	
+			<td class="figures">$stat.originalEstimatesTotal </td>
+			<td class="figures">$stat.actualHours </td>
+			
+			<td class="figures">$stat.defects</td>		
+			#if(!$bugCatList.isEmpty())
+                #foreach ($cat in $bugCatList)
+                	#foreach($bug in $stat.bugDataList)
+                		#if($cat.equals($bug.bugCategory))
+							<td class="figures">$bug.bugCount</td>
+							#break					
+						#end
+					#end
+				#end
+			#end
+			<td class="figures">$stat.allDefects</td>							
+			#if($stat.defectDensityArchitect<=10)
+				<td class="figures green">$stat.defectDensityArchitect</td>
+			#else
+				<td class="figures red">$stat.defectDensityArchitect</td>
+			#end
+			#if($stat.defectDensity<=10)
+				<td class="figures green">$stat.defectDensity</td>
+			#else
+				<td class="figures red">$stat.defectDensity</td>
+			#end	
+			#if($stat.defectDensityActual<=10)
+				<td class="figures last green">$stat.defectDensityActual</td>
+			#else
+				<td class="figures last red">$stat.defectDensityActual</td>
+			#end	
+		</tr>

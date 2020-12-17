@@ -1,0 +1,62 @@
+#disable_html_escaping()
+
+#if(!$none)
+	<div>
+		<table class="timeReport" id="timeReport" border="1" cellspacing="0">
+	            <thead>
+	                <tr>
+	                	<th style="background-color: #f0f0f0;"> Project Category </th>
+	                	<th style="background-color: #f0f0f0;">Project</th>
+	                	<th class="small-head">Project Status</th>
+	                	<th style="background-color: #f0f0f0;">Project Lead</th>
+	                	<th style="background-color: #f0f0f0;">Total <br/>Stories</th>
+	                	<th style="background-color: #f0f0f0;">Stories <br/>Considered</th>
+	                	<th style="background-color: #fafafa;">Architect <br/>Estimate&nbsp;</th>
+	                	<th style="background-color: #fafafa;">Developer <br/>Estimate</th>
+	                	<th style="background-color: #ffebe5;">Actual</th>
+	                	<th style="background-color: #ffebe5;">Remaining</th>
+	                	<th style="background-color: #fffae5;">Dev Estimate Deviation <sup> $</th>
+	                	<th style="background-color: #fffae5;">Architect vs <br/>&nbsp;Dev Estimates <sup> ~</sup></th>
+	                	<th style="background-color: #fffae5;">Architect vs <br/>&nbsp;Actual Estimates<sup> /</sup></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+					 #if(!$projectsData.isEmpty())
+			                   #foreach ($projectData in $projectsData)
+									#parse("templates/reports/delivery-head-estimates-report/excel/table-body.vm")
+						  	   #end	
+					 #else
+					     <span style="color:red;">No relevant data available</span>
+					      <tr>			
+							<td style="text-align:center;">--</td>			
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>
+							<td style="text-align:center;">--</td>			
+						</tr>
+					 #end
+	            </tbody>
+	        </table>
+	        <div>
+				<small><b>Note :</b><br/> 1. All Estimates are in terms of Hours</small>
+				<br/>
+		        <small> 2. On click of the project link, user will be re-directed to Project Estimates Report for that project.</small>
+		        <br/>
+		        <small> 3. Only Stories with closed status is considered for report.</small>
+		        <br/>
+		        <small>~  Architect vs Dev Estimates = 100 * (Original Estimate (Dev) - Architect Estimate)/Architect Estimate</small>
+		        <br/>
+		        <small>$  Dev Estimate Deviation = 100 * (Actual + Remaining - Original Estimate (Dev))/Original Estimate (Dev)</small>
+		        <br/>
+		        <small>/  Architect vs Actual Estimates = 100 * (Actual + Remaining - Architect Estimate)/Architect Estimate</small>
+			</div>
+	</div>
+#end

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginIcon.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
+  </plugin-info>  
+  <external-system-importer name="Stories Estimates Importer" key="StoriesEstimatesImporterKey" i18n-description-key="com.tadigital.jira.plugin.description" i18n-supported-versions-key="com.tadigital.jira.plugin.versions" logo-module-key="com.tadigital.jira.plugin.stories-estimates-importer:graphics" logo-file="simplecsv.png" class="com.tadigital.jira.plugin.TAStoryImporterController" weight="20"/>  
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="stories-estimates-importer"/>  
+  <!-- add our web resources -->  
+  <web-resource key="stories-estimates-importer-resources" name="stories-estimates-importer Web Resources"> 
+    <dependency>com.atlassian.auiplugin:ajs</dependency>  
+    <dependency>com.atlassian.auiplugin:fancy-file-input</dependency>  
+    <resource type="download" name="stories-estimates-importer.css" location="/css/stories-estimates-importer.css"/>  
+    <resource type="download" name="stories-estimates-importer.js" location="/js/stories-estimates-importer.js"/>  
+    <resource type="download" name="images/" location="/images"/>  
+    <context>stories-estimates-importer</context>  
+    <context>atl.general</context> 
+  </web-resource>  
+  <web-resource key="graphics" name="Importer Graphics"> 
+    <resource type="download" name="simplecsv.png" location="images/simplecsv.png"/> 
+  </web-resource>  
+  <webwork1 key="actions" name="Actions" class="java.lang.Object"> 
+    <actions> 
+      <action name="com.tadigital.jira.plugin.web.TASetupPage" alias="TASetupPage"> 
+        <view name="input">templates/csvSetupPage.vm</view>  
+        <view name="denied">/secure/views/securitybreach.jsp</view>  
+        <view name="restartimporterneeded">/templates/admin/views/restartneeded.vm</view> 
+      </action> 
+    </actions> 
+  </webwork1>  
+  <web-item name="TA Digital Plugins" i18n-name-key="ta-digital-plugins.name" key="ta-digital-plugins" section="system.top.navigation.bar" weight="1000"> 
+    <description key="ta-digital-plugins.description">The TA Digital Plugins Plugin</description>  
+    <label key="ta-digital-plugins.label"/>  
+    <link linkId="plugins_link">http://tadigital.com</link> 
+  </web-item>  
+  <web-section name="TA Plugins Section" i18n-name-key="ta-plugins-section.name" key="ta-plugins-section" location="plugins_link" weight="1000"> 
+    <description key="ta-plugins-section.description">The TA Plugins Section Plugin</description>  
+    <label key="ta-plugins-section.label"/> 
+  </web-section>  
+  <web-section name="Project Level Reports Section" i18n-name-key="project-level-reports-section.name" key="project-level-reports-section" location="plugins_link" weight="1000"> 
+    <description key="project-level-reports-section.description">The Project Level Reports Section</description>  
+    <label key="project-level-reports-section.label"/> 
+  </web-section>  
+  <web-section name="Company Level Reports" i18n-name-key="company-level-reports-section.name" key="company-level-reports-section" location="plugins_link" weight="1000"> 
+    <description key="company-level-reports-section.description">The Company Level Reports Section</description>  
+    <label key="company-level-reports-section.label"/> 
+  </web-section>  
+  <web-item name="Stories Estimates Importer" i18n-name-key="stories-estimates-importer.name" key="stories-estimates-importer" section="plugins_link/ta-plugins-section" weight="1000"> 
+    <description key="stories-estimates-importer.description">The Stories Estimates Importer Plugin</description>  
+    <label key="stories-estimates-importer.label"/>  
+    <link linkId="stories-estimates-importer-link">/secure/admin/TASetupPage!default.jspa?externalSystem=com.tadigital.jira.plugin.importer.stories-importer:StoriesEstimatesImporterKey</link> 
+  </web-item>  
+  <web-item name="Defect Density Report" i18n-name-key="defect-density-report.name" key="defect-density-report" section="plugins_link/project-level-reports-section" weight="1000"> 
+    <description key="defect-denisty-report.description">The Defect Density Report Plugin</description>  
+    <label key="defect-density-report.label"/>  
+    <link linkId="defect-density-report-link">/secure/ConfigureReport.jspa?projectId=-9223372036854775808&amp;reportKey=com.tadigital.jira.plugin.report.defect-density-report:defect-density-report</link> 
+  </web-item>  
+  <web-item name="Project Estimates vs Actual Report" i18n-name-key="project-estimates-report.name" key="project-estimates-report" section="plugins_link/project-level-reports-section" weight="1000"> 
+    <description key="project-estimates-report.description">The Project Estimates Report Plugin</description>  
+    <label key="project-estimates-report.label"/>  
+    <link linkId="project-estimates-report-link">/secure/ConfigureReport.jspa?projectValues=-9223372036854775808&amp;reportKey=com.tadigital.jira.plugin.report.project-estimates-report:time-estimates-report</link> 
+  </web-item>
+  <web-item name="Project Estimates vs Actual Report - Delivery Heads" i18n-name-key="project-estimates-report-delivery.name" key="project-estimates-report-delivery" section="plugins_link/company-level-reports-section" weight="1000"> 
+    <description key="project-estimates-report-delivery.description">Project Estimates vs Actual Report - Delivery Heads Plugin</description>  
+    <label key="project-estimates-report-delivery.label"/>  
+    <link linkId="project-estimates-report-delivery-link">/secure/ConfigureReport.jspa?projectCategoryValues=-9223372036854775808&amp;reportKey=com.tadigital.jira.plugin.report.project-estimates-report:delivery-head-estimates-report</link> 
+  </web-item>  
+  <web-item name="Defect Density Reports - Delivery Heads" i18n-name-key="defect-density-report-delivery.name" key="defect-density-report-delivery" section="plugins_link/company-level-reports-section" weight="1000"> 
+    <description key="defect-density-report-delivery.description">The Defect Density Report Plugin</description>  
+    <label key="defect-density-report-delivery.label"/>  
+    <link linkId="defect-density-report-delivery-link">/secure/ConfigureReport.jspa?categoryId=-9223372036854775808&amp;reportKey=com.tadigital.jira.plugin.report.defect-density-report:defect-density-report-delivery-heads</link> 
+  </web-item>
+  <web-item name="Defect Density Report - Practice Managers" i18n-name-key="defect-density-report-practice-managers.name" key="defect-density-report-practice-managers" section="plugins_link/company-level-reports-section" weight="1000"> 
+    <description key="defect-density-report-practice-managers.description">The Defect Density Report - Practice Managers Plugin</description>  
+    <label key="defect-density-report-practice-managers.label"></label>  
+    <link linkId="defect-density-report-practice-managers-link">/secure/ConfigureReport.jspa?practice=None&amp;band=1&amp;from=&amp;to=&amp;reportKey=com.tadigital.jira.plugin.report.defect-density-report:defect-density-report-practice-manager</link> 
+  </web-item>
+   <web-item name="Project Estimates vs Actual Report - Practice Managers" i18n-name-key="project-estimates-report-practice-managers.name" key="practice-manager-estimates-report" section="plugins_link/company-level-reports-section" weight="1000"> 
+    <description key="project-estimates-report-practice-managers.description">Project Estimates vs Actual Report - Practice Managers Plugin</description>  
+    <label key="project-estimates-report-practice-managers.label"></label>  
+    <link linkId="project-estimates-report-practice-managers-link">/secure/ConfigureReport.jspa?practice=None&amp;band=1&amp;from=&amp;to=&amp;reportKey=com.tadigital.jira.plugin.report.project-estimates-report:practice-manager-estimates-report</link> 
+  </web-item>
+  <!-- new links section -->  
+  <servlet name="TA Digital Import Estimate Servlet" key="TAEstimateUploadServlet" class="com.tadigital.jira.plugin.rest.FileUploadServlet"> 
+    <description>TA Digital Import Estimate Upload Servlet</description>  
+    <url-pattern>/taestimateupload</url-pattern> 
+  </servlet>  
+</atlassian-plugin>

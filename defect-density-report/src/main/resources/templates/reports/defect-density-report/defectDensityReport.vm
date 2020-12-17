@@ -1,0 +1,156 @@
+#parse("templates/reports/defect-density-report/project-filter.vm")
+#set($BugCatUrl = "/issues/?jql=project+%3D+%22$projectName%22+and+issuetype+%3D+bug")
+<div id="creation-report-parameters">
+#if(!$dataPresent)
+   <table class="defectReportHeader" border="0" cellspacing="0" >
+        <thead>
+            <tr>
+                <th nowrap="true"><h3 class="bluetext">Defect Density for Project: ${projectName}</h3>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+       </tbody>
+    </table>
+	<table class="defect-report-content" id="defect-report" cellspacing="0">
+            <thead>
+                <tr>
+                	<th class="small-head first-left"> Developer Name </th>
+                	<th class="small-head"> Band </th>
+                	<th class="small-head"> Designation </th>
+					<th class="small-head num-col"> Total Sub-Stories </th>
+					<th class="small-head num-col"> Tot. Sub-St. <br/> Considered <sup> $</sup> 
+						<div class="header-tooltip header-tooltip-big hidden">Only the tickets with both Architect Estimate and Developer Estimate populated are considered for Defect Density based on Architect Est. and Defect Density based on Developer Est.</div>
+					</th>
+					<th class="small-head light-red num-col"> Arch. Est. <br/> (Total)
+						<div class="header-tooltip header-tooltip-small hidden">Architect Estimates</div>
+					</th>
+					<th class="small-head light-red num-col"> Org. Est. <br/> (Total)
+						<div class="header-tooltip header-tooltip-small hidden">Original Estimates</div>
+					 </th>
+					<th class="small-head light-red num-col"> Actual Hrs. <br/> (Total) 
+						<div class="header-tooltip hidden">Actual hours logged by developers</div>
+					</th>
+					<th class="small-head light-red num-col"> Total Defects 
+						<div class="header-tooltip header-tooltip-big hidden">Total defects are all the sub-defects that were assigned to developer and all bugs with  Bug Category=Development Bug and linked to a sub-story worked by the developer.</div>
+					</th>
+					<th class="small-head light-yellow num-col"> D. D. <b>*</b> <br/><small> (Arch. Est.)</small> 
+						<div class="header-tooltip hidden">Defect Density (based on Architect Estimates)</div>
+					</th>
+					<th class="small-head light-yellow num-col"> D. D. <b>†</b> <br/><small> (Dev. Est.)</small> 
+						<div class="header-tooltip hidden">Defect Density (based on Developer Estimates)</div>
+					</th>
+					<th class="small-head light-yellow num-col"> D. D. <b>^</b> <br/><small> (Actl. Hrs.)</small> 
+						<div class="header-tooltip hidden">Defect Density (based on Actual Hours)</div>
+					</th>
+                </tr>
+            </thead>
+            <tbody>
+              #if(!$stats.isEmpty())
+                   #foreach ($stat in $stats)
+						#parse("templates/reports/defect-density-report/defectDensityCustomRows.vm")
+			  	   #end	
+			  #else
+			     <span class="meesage-red">No relevant data available</span>
+			      <tr>			
+					<td class="figures first-left">--</td>			
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures">--</td>
+					<td class="figures small-head">--</td>
+					
+				</tr>
+			  #end  		   
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="small-head footer-first-left" colspan="3">Total Caused by Development</th>					
+					<th class="small-head footer-head">$total.totalStories</th>
+					<th class="small-head footer-head">$total.totalSubStoriesConsidered</th>
+					<th class="small-head footer-head">$total.architectEstimates</th>
+					<th class="small-head footer-head">$total.originalEstimatesTotal</th>
+					<th class="small-head footer-head">$total.actualHours</th>
+					<th class="small-head footer-head">$total.defects </th>
+					<th class="small-head footer-head">$total.defectDensityArchitect</th>
+					<th class="small-head footer-head">$total.defectDensity</th>
+					<th class="small-head footer-head">$total.defectDensityActual</th>                    
+                </tr>
+                <tr class="bug-rows">
+						<td class="fig" ><b>Other Types</b></td>
+						<td colspan="11" class=" last"/>
+						</tr>
+           		#if(!$bugs.isEmpty())
+                   #foreach ($bug in $bugs)
+					  <tr class="bug-rows">
+						<td class="figures first-left">$bug.bugCategory</td>
+						<td class="fig">--</td>			
+						<td class="fig">--</td>						
+						<td class="fig">--</td>
+						<td class="fig">--</td>
+						<td class="fig">--</td>
+						<td class="fig">--</td>
+						<td class="fig">--</td>
+						<td class="fig">
+							#if($bug.bugCategory.equals("No Bug Category"))
+								<a href="$BugCatUrl+AND+%22Bug+Category%22%20is%20EMPTY"  target="_blank">$bug.bugCount</a>
+							#else
+								<a href="$BugCatUrl+AND+%22Bug+Category%22+%3D++%22$bug.bugCategory%22"  target="_blank">$bug.bugCount</a>
+							#end								
+						</td>					
+						<td class="fig">--</td>	
+						<td class="fig">--</td>
+						<td class="fig last">--</td>
+			  	  	</tr>
+			  	  	#end
+			  	  #end
+			  	  <tr>
+                    <th class="small-head footer-first-left">Total</th>					
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">$totalDefectsCount</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>
+					<th class="small-head footer-head">--</th>                   
+                </tr>
+            </tfoot>
+        </table>
+		<div>
+			<small><b>Table headers:</b></small></br>
+			<small>Total Sub-Stories = Total Sub-Stories Worked On</small><br/>
+			<small>Tot. Sub-St. Considered = Total Sub-stories considered-only Tickets with both Architect Estimate and Developer Estimate populated are considered for Defect Density based on Architect Est. and Defect Density based on Developer Est.</small><br/>
+			<small>Arch. Est. = Architect Estimates</small><br/>
+			<small>Orig. Est. = Original Estimates (Developer)</small><br/>
+			<small>Actual Hrs. = Actual Hours (Developer)</small><br/>
+			<small>Total Defects =  All sub-defects that were assigned to developer and all bugs with  Bug Category=Development Bug and linked to a sub-story worked by the developer.</small><br/>
+			<small>D. D. = Defect Density (based on)</small><br/>
+        	<small>*Defect Density (based on Architect Est.)  = (Total Defects / Architect Estimates) * 800</small><br/>
+			<small>†Defect Density (based on Original Est.)   = (Total Defects / Original Estimates) * 800</small><br/>
+			<small>^Defect Density (based on Actual Hours)   = (Total Defects / Actual Hours) * 800</small><br/>
+			<small>$ Total Tickets Considered: Only Tickets with both Architect Estimate and Developer Estimate populated.
+		</div>
+		<div>
+			<small><b>Note :</b>
+        		<br/> 1. All Estimates are in terms of Hours
+       	    </small>
+            <small>
+        		<br/> 2. Developer role is mandatory to be filled in for sub story, bugs and defects to reflect here. 
+         	</small>   
+		</div>
+		
+		#else 
+			<span>Please select a project from dropdown to view the report.</span>
+		#end
+		
+</div>

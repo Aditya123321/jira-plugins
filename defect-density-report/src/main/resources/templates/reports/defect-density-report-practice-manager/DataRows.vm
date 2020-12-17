@@ -1,0 +1,62 @@
+
+ #set($queryUrl = "/issues/?jql=(issuetype+%3D+Sub-Defect+OR+issuetype+%3D+Bug)+and+(+(+%22Caused+by+Developer%22+%3D+%22$stat.jiraUserName%22+and+issueLinkType+%3D+%22is caused by%22+)+OR+(%22Developer%22+%3D+%22$stat.jiraUserName%22+and+developer+is+not+EMPTY+)+)+AND+createdDate+%3C%3D+%22$toNextDate%22+AND+(resolution+!%3D+Invalid+or+resolution+is+EMPTY)")
+ #set($subStoryUrl = "/issues/?jql=(issuetype+%3D+Sub-Story+and+status+%3D+closed)+and+Developer+%3D+$stat.jiraUserName")
+  #set($subStoryConsideredUrl = "/issues/?jql=(issuetype+%3D+Sub-Story+and+status+%3D+closed)+and+Developer+%3D+$stat.jiraUserName+and+(originalEstimate+!%3D+empty+and+%22Architect+Estimate%22+!%3D+empty)")
+ #set($subStoryFrom = "")
+ #set($subStoryTo = "")
+#set($fromQuery = "")
+#set($toQuery = "")
+#if($from)
+    #set($fromQuery = "+AND+createdDate+%3E%3D+'$from'")
+    #set($subStoryFrom = "+AND+resolutiondate+%3E%3D+'$from'")
+#end
+#if($to)   
+    #set($subStoryTo = "+AND+resolutiondate+%3C%3D+'$to'")
+#end
+
+
+<tr>		
+	
+					
+			<td class="figures project-name first-left">$stat.developerName</td>
+			<td class="figures project-name" style="display:none;">$stat.developerId</td>
+			<td class="figures">$stat.band</td>		
+			<td class="figures project-name">$stat.designation</td>
+			<td class="figures">
+				<a href="$subStoryUrl$subStoryFrom$subStoryTo"  target="_blank">
+				$stat.totalStories
+				</a>
+			</td>
+			<td class="figures">
+				<a href="$subStoryConsideredUrl$subStoryFrom$subStoryTo"  target="_blank">
+				$stat.totalSubStoriesConsidered
+				</a>
+			</td>
+			<td class="figures">$stat.architectEstimates </td>	
+			<td class="figures">$stat.originalEstimatesTotal </td>
+			<td class="figures">$stat.actualHours </td>
+			
+			<td class="figures green-highlight">
+				
+				<a href="$queryUrl$fromQuery$toQuery"  target="_blank">
+                    $stat.defects</a>
+			
+			</td>
+			
+			#if($stat.defectDensityArchitect<=10)
+				<td class="figures green">$stat.defectDensityArchitect</td>
+			#else
+				<td class="figures red">$stat.defectDensityArchitect</td>
+			#end
+			#if($stat.defectDensity<=10)
+				<td class="figures green">$stat.defectDensity</td>
+			#else
+				<td class="figures red">$stat.defectDensity</td>
+			#end
+			#if($stat.defectDensityActual<=10)
+				<td class="figures last green">$stat.defectDensityActual</td>
+			#else
+				<td class="figures last red">$stat.defectDensityActual</td>
+			#end					
+				
+		</tr>

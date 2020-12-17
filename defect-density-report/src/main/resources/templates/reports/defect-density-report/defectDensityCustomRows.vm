@@ -1,0 +1,50 @@
+<tr>
+	<td class="figures first-left">$stat.developerName</td>
+	<td class="figures">$stat.band</td>
+	<td>$stat.designation</td>
+	<td class="figures">
+		<a href="/issues/?jql=(issuetype+%3D+Sub-Story)
+		#if($sprint != -9223372036854775808)
+			+and+Sprint+%3D+%22$sprint%22
+		#end
+			+and+Developer+%3D+%22$stat.jiraUserName%22+and+project+%3D+%22$projectName%22+and+(status+!%3D+Open+and+status!%3D+Development+)"  target="_blank">
+		$stat.totalStories
+		</a>
+	</td>
+	<td class="figures">
+		<a href="/issues/?jql=(issuetype+%3D+Sub-Story)
+		#if($sprint != -9223372036854775808)
+			+and+Sprint+%3D+%22$sprint%22
+		#end
+			+and+Developer+%3D+%22$stat.jiraUserName%22+and+project+%3D+%22$projectName%22+and+(status+!%3D+Open+and+status!%3D+Development)+and+(originalEstimate+!%3D+empty+and+%22Architect+Estimate%22+!%3D+empty)"  target="_blank">
+		$stat.totalSubStoriesConsidered
+		</a>
+	</td>
+	<td class="figures">$stat.architectEstimates</td>
+	<td class="figures">$stat.originalEstimatesTotal</td>
+	<td class="figures">$stat.actualHours</td>
+	<td class="figures">
+		<a href="/issues/?jql=(issuetype+%3D+Sub-Defect+OR+issuetype+%3D+Bug+and+project+%3D+%22$projectName%22
+		#if($sprint != -9223372036854775808)
+			+and+Sprint+%3D+%22$sprint%22
+		#end
+		)+and+(+(+%22Caused+by+Developer%22+%3D+%22$stat.jiraUserName%22+and+issueLinkType+%3D+%22is caused by%22+)+OR+(%22Developer%22+%3D+%22$stat.jiraUserName%22+and+developer+is+not+EMPTY+)+)+AND+(resolution+!%3D+Invalid+or+resolution+is+EMPTY)"  target="_blank">
+		$stat.defects 
+		</a>
+	</td>
+	#if($stat.defectDensityArchitect<=10)
+	<td class="figures green">$stat.defectDensityArchitect</td>
+	#else
+	<td class="figures red">$stat.defectDensityArchitect</td>
+	#end
+	#if($stat.defectDensity<=10)
+	<td class="figures green">$stat.defectDensity</td>
+	#else
+	<td class="figures red">$stat.defectDensity</td>
+	#end
+	#if($stat.defectDensityActual<=10)
+	<td class="figures last green">$stat.defectDensityActual</td>
+	#else
+	<td class="figures last red">$stat.defectDensityActual</td>
+	#end	
+</tr>
